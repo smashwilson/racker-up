@@ -6,6 +6,8 @@ require 'dotenv'
 
 Dotenv.load
 
+Session = Struct.new(:token_id, :tenant_id)
+
 class AuthenticationEndpoint
   include HTTParty
 
@@ -15,8 +17,12 @@ class AuthenticationEndpoint
     username, key = ENV['RAX_USERNAME'], ENV['RAX_APIKEY']
     body = {auth: {'RAX-KSKEY:apiKeyCredentials' => {username: username, apiKey: key}}}
     headers = {'Content-Type' => 'application/json'}
-    post(headers: headers, body: body.to_json)
+    resp = post('/tokens', headers: headers, body: body.to_json).parsed_response
+    token_info = resp['access']['token']
+    Session.new(token_info['id'], token_info['tenant']['id'])
   end
 end
 
-puts AuthenticationEndpoint.login!.inspect
+session = AuthenticationEndpoint.login!
+puts "Token ID: #{session.token_id}"
+puts "Tenant ID: #{session.tenant_id}"
