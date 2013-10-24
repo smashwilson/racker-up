@@ -15,7 +15,19 @@ end
 
 CatalogEntry = Struct.new(:name, :endpoints)
 
-CloudServer = Struct.new(:name, :id)
+CloudServer = Struct.new(:name, :id, :session, :url) do
+  def details
+    HTTParty.get(url, headers: session.auth_headers).parsed_response
+  end
+
+  def progress
+    details['server']['progress']
+  end
+
+  def delete
+    HTTParty.delete(url, headers: session.auth_headers)
+  end
+end
 
 class AuthenticationEndpoint
   include HTTParty
