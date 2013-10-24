@@ -6,4 +6,4 @@ This is a series of exercises to familiarize myself with Rackspace's OpenStack A
 
 These exercises use the API directly.
 
-`api1.rb` uses the authentication endpoint to create a token.
+`raw-api.rb` uses the authentication endpoint to create a token.
