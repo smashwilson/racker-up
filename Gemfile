@@ -5,3 +5,5 @@ gem 'httparty'
 gem 'json'
 gem 'dotenv'
 gem 'fog'
+
+gem 'pry'
