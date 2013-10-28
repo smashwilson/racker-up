@@ -5,10 +5,10 @@ require 'fog'
 
 Dotenv.load
 
-def log_me_in
+def log_me_in service_kind = Fog::Compute
   username, key = ENV['RAX_USERNAME'], ENV['RAX_APIKEY']
 
-  Fog::Compute.new(
+  service_kind.new(
     provider: 'Rackspace',
     rackspace_username: username,
     rackspace_api_key: key
