@@ -13,31 +13,35 @@ service = Fog::Compute.new(
   rackspace_api_key: key
 )
 
-# Find the appropriate flavor and image.
+puts ">> Finding the appropriate flavor and image."
+
 flavor = service.flavors.find { |f| f.ram == 512 }
 raise "Cannot find flavor!" if flavor.nil?
 
 image = service.images.find { |i| i.name =~ /Ubuntu 13.10/ }
 raise "Cannot find image!" if image.nil?
 
-# Launch three servers.
+puts ">> Launching three servers."
 boxen = (1..3).map do |index|
-  service.servers.create name: "web#{index}",
+  box = service.servers.create name: "web#{index}",
     image_id: image.id,
     flavor_id: flavor.id
+  puts ".. Server web#{index} launching."
+  box
 end
 
-# Wait for all three to start.
+puts ">> Wait for all three to launch."
 boxen.each do |b|
   b.wait_for { ready? }
+  puts ".. Server #{b.name} ready."
 end
 
-# Print the IP and login credentials for each server.
+puts ">> Print the IP and login credentials for each server."
 boxen.each do |b|
   addr = b.addresses['public'].find { |a| a['version'] == 4 }['addr']
-  puts "Server: #{b.name} => IP: #{addr} password: #{b.password}"
+  puts ".. Server: #{b.name} => IP: #{addr} password: #{b.password}"
 end
 
-# Shut them down.
+puts ">> Shut then down."
 boxen.each { |b| b.destroy }
 
