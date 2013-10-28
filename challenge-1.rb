@@ -1,17 +1,9 @@
 # Build three 512MB cloud servers that follow a similar naming convention
 # (i.e., web1, web2, web3) and return the IP and login credentials for each server.
 
-require 'dotenv'
-require 'fog'
+require_relative 'boilerplate'
 
-Dotenv.load
-username, key = ENV['RAX_USERNAME'], ENV['RAX_APIKEY']
-
-service = Fog::Compute.new(
-  provider: 'Rackspace',
-  rackspace_username: username,
-  rackspace_api_key: key
-)
+service = log_me_in
 
 puts ">> Finding the appropriate flavor and image."
 
