@@ -14,3 +14,4 @@ This is a series of exercises to familiarize myself with Rackspace's OpenStack A
  - `challenge-2.rb` clones an existing server.
  - `challenge-3.rb` uploads the contents of a directory to a cloud files container.
  - `challenge-4.rb` creates an A record for a DNS entry.
+ - `challenge-5.rb` creates a cloud database.
