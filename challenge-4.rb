@@ -1,5 +1,10 @@
 # create a new A record when passed an FQDN and IP address as arguments.
 
+require 'fog'
+
+# since we don't *really* have a domain registered.
+Fog.mock!
+
 require_relative 'boilerplate'
 require 'optparse'
 
@@ -21,6 +26,8 @@ opts = OptionParser.new do |opts|
     exit 0
   end
 end
+
+opts.parse! ARGV
 
 unless fqdn && ip && email
   puts opts
