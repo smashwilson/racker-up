@@ -36,14 +36,16 @@ end
 
 service = log_me_in Fog::DNS
 
-puts ">> creating a zone for the address."
+step "creating a zone for the address."
 zone = service.zones.create domain: fqdn, email: email
 
-puts ".. zone created with nameservers: #{zone.nameservers.join ', '}"
+puts " zone created with nameservers: #{zone.nameservers.join ', '}"
 
-puts ">> adding an A record to the zone."
+step "adding an A record to the zone."
 record = zone.records.create(
   value: ip,
   name: fqdn,
   type: 'A'
 )
+
+step "complete."

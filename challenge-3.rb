@@ -32,26 +32,26 @@ end
 
 service = log_me_in Fog::Storage
 
-puts ">> validating your arguments."
+step "validating your arguments."
 
 raise "Directory #{directory} doesn't exist!" unless File.exist? directory
 raise "Path #{directory} isn't a directory!" unless File.directory? directory
 
-puts ">> verifying that the container exists."
+step "verifying that the container exists."
 
 container = service.directories.get container_name
 if container.nil?
-  puts ".. creating container."
+  step ".. creating container."
   container = service.directories.create key: container_name
 else
-  puts ".. container already exists."
+  step ".. container already exists."
 end
 
-puts ">> uploading files from the specified directory."
+step "uploading files from the specified directory."
 Dir["#{directory}/*"].each do |path|
   next if File.directory? path
-  puts ".. uploading #{path}"
+  step ".. uploading #{path}"
   container.files.create key: File.basename(path), body: File.open(path, 'r')
 end
 
-puts ">> complete."
+step "complete."
