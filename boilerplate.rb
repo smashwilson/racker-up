@@ -14,6 +14,7 @@ def log_me_in service_kind = Fog::Compute
     rackspace_api_key: key
   }
   auth_hash[:provider] = 'Rackspace' unless service_kind.to_s =~ /Rackspace/
+  puts ">>".yellow + " logging in as \"#{username}\""
 
   service_kind.new(auth_hash)
 end
